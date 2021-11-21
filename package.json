@@ -1,6 +1,7 @@
 {
   "name": "front-end",
   "version": "0.1.0",
+  "homepage": "http://bankole2000.github.io/spoke-todo-frontend",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.6.0",
