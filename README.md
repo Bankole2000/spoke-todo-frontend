@@ -1,3 +1,24 @@
+# Spoke Todo
+
+Front end half of a Todo list project - Coding challenge submission for the FrontEnd Product Engineering Role [@Spoke.ai](https://spoke.ai)
+
+[View Challenge Requirements Here](https://spokeai.notion.site/Spoke-Frontend-Coding-Challenge-6fb0fe222cf14bcaa16da24306fa6fe2)
+
+Built with 
+1. React + typescript
+2. Redux
+3. Redux Saga
+4. React Location
+5. Material UI Components
+
+## Project is imcomplete - changes pending
+- [ ] Update todos saga
+- [ ] Delete Todos saga
+- [ ] Todo details page for editing todo items and item subtasks
+- [ ] Applying Feedback components (Snackbars, Alerts, Loaders)
+- [ ] Feedback on different states (loading, success, errors etc)
+- [ ] Tests
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
