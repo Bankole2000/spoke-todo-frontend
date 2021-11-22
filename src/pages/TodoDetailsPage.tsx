@@ -66,11 +66,12 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
     let updatedTodoInfo = { ...todoItem }
     if (hasSubtasks) {
       updatedTodoInfo.subtasks = itemSubtasks
-      setTodoItem({
-        ...todoItem,
-        subtasks: itemSubtasks
-      })
+    } else {
+      updatedTodoInfo.subtasks = [];
     }
+    setTodoItem({
+      ...updatedTodoInfo
+    })
     console.log({ updatedTodoInfo })
     dispatch(updateTodo(updatedTodoInfo))
     setEditingTitle(false)
