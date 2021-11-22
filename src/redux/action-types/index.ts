@@ -49,19 +49,25 @@ export interface CREATE_TODO {
   message?: string
 }
 
-interface UPDATE_TODO {
-  type: ActionType.UPDATE_TODO_REQUEST,
-  payload: Todo
+export interface UPDATE_TODO {
+  type: ActionType.UPDATE_TODO_REQUEST | ActionType.UPDATE_TODO_SUCCESS | ActionType.UPDATE_TODO_FAILED,
+  payload: Todo, 
+  error?: string[],
+  message?: string
 }
 
-interface DELETE_TODO {
-  type: ActionType.DELETE_TODO_REQUEST,
+export interface DELETE_TODO {
+  type: ActionType.DELETE_TODO_REQUEST | ActionType.DELETE_TODO_SUCCESS | ActionType.DELETE_TODO_FAILED,
   payload: number | string,
+  error?: string[],
+  message?: string
 }
 
 interface DELETE_TODOS {
-  type: ActionType.DELETE_TODOS_REQUEST,
-  payload?: number | string
+  type: ActionType.DELETE_TODOS_REQUEST | ActionType.DELETE_TODOS_SUCCESS | ActionType.DELETE_TODOS_FAILED,
+  payload?: number | string,
+  error?: string[],
+  message?: string
 }
 
 export type Action = GET_TODO | GET_TODOS | CREATE_TODO | UPDATE_TODO | DELETE_TODO | DELETE_TODOS;

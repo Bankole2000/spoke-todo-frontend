@@ -6,7 +6,8 @@ import { Subtask, Todo } from "../../interfaces/TodoInterface";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux/reducers";
 
-import { createTodo, getTodos } from '../../redux/actions/todoActions';
+import { createTodo } from '../../redux/actions/todoActions';
+import SubTaskForm from "./SubtaskForm";
 
 
 
@@ -101,12 +102,12 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
         completed: false,
       }
     ])
-    console.log({todos})
+    console.log({ todos })
   }
 
-  const submitIfEnter = (e : React.KeyboardEvent<HTMLDivElement>) => {
-    console.log({key: e.key})
-    if(e.key == 'Enter'){
+  const submitIfEnter = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    console.log({ key: e.key })
+    if (e.key == 'Enter') {
       addTodo();
     }
   }
@@ -145,30 +146,14 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
         <TransitionGroup>
           {subTasks.map((subtask, i) => (
             <Collapse key={i}>
-              <div style={{ display: 'flex', alignItems: 'center' }} key={i}>
-                <TextField
-                  style={{ margin: '0px 10px 20px' }}
-                  label="Subtask"
-                  variant="standard"
-                  color="secondary"
-                  name="title" value={subtask.title} onKeyPress={(e) => {
-                    if (e.key == "Enter" && i == subTasks.length - 1) addSubtask()
-                  }} 
-                  onChange={(e) => handleSubtaskChange(e, i)}
-                  fullWidth
-                  InputProps={{
-                    startAdornment: <InputAdornment position="start">{i + 1}.</InputAdornment>,
-                  }}
-                ></TextField>
-                {subTasks.length > 1 && <IconButton onClick={() => removeSubtask(i)} color="error">
-                  <ClearIcon></ClearIcon>
-                </IconButton>}
-                {i === subTasks.length - 1 &&
-                  <IconButton disabled={!Boolean(subtask.title)} onClick={addSubtask} color="info">
-                    <AddIcon></AddIcon>
-                  </IconButton>
-                }
-              </div>
+              <SubTaskForm
+                subtask={subtask}
+                i={i}
+                handleSubtaskChange={handleSubtaskChange}
+                addSubtask={addSubtask}
+                removeSubtask={removeSubtask}
+                subTasks={subTasks}>
+              </SubTaskForm>
             </Collapse>
           ))}
         </TransitionGroup>
@@ -180,11 +165,9 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
         open={loading}
         invisible
       >
-        <CircularProgress color="inherit" />
+        <CircularProgress color="inherit" size="large" />
       </Backdrop>
-      {/* {JSON.stringify(todos)}
-      <hr />
-      {JSON.stringify(loading)} */}
+
     </div>
   );
 }

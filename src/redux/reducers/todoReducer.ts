@@ -61,8 +61,42 @@ export default function todos(state = initialState, action: Action) {
         message: action.message,
         messageType: "success"
       }
-    // case ActionType.UPDATE_TODO_REQUEST:
-    //   return state
+    case ActionType.UPDATE_TODO_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        message: "Updating Todo",
+        messageType: 'info',
+      }
+    case ActionType.UPDATE_TODO_SUCCESS:
+      return {
+        ...state,
+        todos: state.todos.map((todo) => {
+          if (todo.id == action.payload.id) {
+            return action.payload
+          } else {
+            return todo;
+          }
+        }),
+        loading: false,
+        message: action.message,
+        messageType: 'success'
+      }
+    case ActionType.DELETE_TODO_REQUEST:
+      return {
+        ...state,
+        loading: true,
+        message: 'deleting todo item',
+        messageType: 'info'
+      }
+    case ActionType.DELETE_TODO_SUCCESS:
+      return {
+        ...state,
+        todos: state.todos.filter(todo => todo.id != action.payload),
+        loading: false,
+        message: action.message,
+        messageType: 'success'
+      }
     default:
       return state;
   }

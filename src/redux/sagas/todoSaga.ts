@@ -1,7 +1,7 @@
 import { call, put, takeEvery } from "redux-saga/effects";
 import { Todo } from "../../interfaces/TodoInterface";
 import config from '../../utils/config';
-import { Action, CREATE_TODO, GET_TODO, GET_TODOS } from "../action-types";
+import { Action, CREATE_TODO, GET_TODO, GET_TODOS, UPDATE_TODO, DELETE_TODO } from "../action-types";
 const apiUrl = `${config.baseUrl}/api/todos`
 
 function getAll() {
@@ -38,12 +38,13 @@ function create(todo: Todo) {
     .catch(e => { throw e })
 }
 
-function update(id: number | string) {
-  return fetch(`${apiUrl}/${id}`, {
-    method: "PATCH",
+function update(todo: Todo) {
+  return fetch(`${apiUrl}/${todo.id}`, {
+    method: "PUT",
     headers: {
-      contentType: "application/json"
-    }
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(todo)
   })
     .then(res => res.json())
     .catch(e => { throw e })
@@ -106,11 +107,36 @@ function* createTodo(action: CREATE_TODO) {
   }
 }
 
+function* updateTodo(action: UPDATE_TODO) {
+  console.log({ action, payload: action.payload })
+  try {
+    const request = update(action.payload)
+    const { message, success, errors, data } = yield request
+    console.log({ data });
+    yield put({ type: 'UPDATE_TODO_SUCCESS', payload: data, message })
+  } catch (error: any) {
+    yield put({ type: 'UPDATE_TODO_FAILED', message: error.message })
+  }
+}
+
+function* deleteTodo(action: DELETE_TODO) {
+  console.log({ action, payload: action.payload })
+  try {
+    const request = deleteSingle(action.payload)
+    const { message, success, errors, data } = yield request
+    console.log({ data });
+    yield put({ type: 'DELETE_TODO_SUCCESS', payload: data, message })
+  } catch (error: any) {
+    yield put({ type: 'DELETE_TODO_FAILED', message: error.message })
+  }
+}
+
 function* todoSaga() {
   yield takeEvery('GET_TODOS_REQUEST', getTodos)
   yield takeEvery('GET_TODO_REQUEST', getTodoDetails)
   yield takeEvery('CREATE_TODO_REQUEST', createTodo)
-  // yield takeEvery('UPDATE_TODO_REQUEST', getTodos)
+  yield takeEvery('UPDATE_TODO_REQUEST', updateTodo)
+  yield takeEvery('DELETE_TODO_REQUEST', deleteTodo)
   // yield takeEvery('DELETE_TODO_REQUEST', getTodos)
   // yield takeEvery('DELETE_TODOS_REQUEST', getTodos)
 }
