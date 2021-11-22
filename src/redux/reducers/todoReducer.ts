@@ -14,6 +14,7 @@ const initialState: TodoStateInterface = {
   loading: false,
   errors: [],
   message: '',
+  messageType: undefined,
 };
 
 export default function todos(state = initialState, action: Action) {
@@ -23,6 +24,7 @@ export default function todos(state = initialState, action: Action) {
       return {
         ...state,
         loading: true,
+        errors: [],
         message: "Loading Todos",
         messageType: "info"
       }
@@ -31,19 +33,23 @@ export default function todos(state = initialState, action: Action) {
         ...state,
         loading: false,
         todos: action.todos,
+        errors: [],
         message: action.message,
+        MessageType: 'success'
       }
-    case ActionType.GET_TODO_FAILED:
+    case ActionType.GET_TODOS_FAILED:
       return {
         ...state,
-        error: action.error,
+        errors: action.error,
         loading: false,
         message: action.message,
+        messageType: "error"
       }
     case ActionType.CREATE_TODO_REQUEST:
       return {
         ...state,
         loading: true,
+        errors: [],
         message: "Creating Todo Item",
         messageType: "info"
       };
@@ -58,13 +64,23 @@ export default function todos(state = initialState, action: Action) {
           ...state.todos,
         ],
         loading: false,
+        errors: [],
         message: action.message,
         messageType: "success"
+      }
+    case ActionType.CREATE_TODO_FAILED: 
+      return {
+        ...state,
+        loading: false,
+        message: action.message,
+        errors: action.error,
+        messageType: "error"
       }
     case ActionType.UPDATE_TODO_REQUEST:
       return {
         ...state,
         loading: true,
+        errors: [],
         message: "Updating Todo",
         messageType: 'info',
       }
@@ -79,13 +95,23 @@ export default function todos(state = initialState, action: Action) {
           }
         }),
         loading: false,
+        errors: [],
         message: action.message,
         messageType: 'success'
+      }
+    case ActionType.UPDATE_TODO_FAILED: 
+      return {
+        ...state,
+        loading: false,
+        message: action.message,
+        errors: action.error,
+        messageType: "error"
       }
     case ActionType.DELETE_TODO_REQUEST:
       return {
         ...state,
         loading: true,
+        errors: [],
         message: 'deleting todo item',
         messageType: 'info'
       }
@@ -94,8 +120,17 @@ export default function todos(state = initialState, action: Action) {
         ...state,
         todos: state.todos.filter(todo => todo.id != action.payload),
         loading: false,
+        errors: [],
         message: action.message,
         messageType: 'success'
+      }
+    case ActionType.DELETE_TODO_FAILED: 
+      return {
+        ...state,
+        loading: false,
+        message: action.message,
+        errors: action.error,
+        messageType: "error"
       }
     default:
       return state;

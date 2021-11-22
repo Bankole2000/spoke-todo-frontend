@@ -12,12 +12,13 @@ Built with
 5. Material UI Components
 
 ## Project is imcomplete - changes pending
-- [ ] Update todos saga
-- [ ] Delete Todos saga
+- [x] Update todos saga
+- [x] Delete Todos saga
 - [ ] Todo details page for editing todo items and item subtasks
 - [ ] Applying Feedback components (Snackbars, Alerts, Loaders)
 - [ ] Feedback on different states (loading, success, errors etc)
 - [ ] Tests
+- [ ] Code Cleanup
 
 # Getting Started with Create React App
 

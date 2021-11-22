@@ -165,7 +165,7 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
         open={loading}
         invisible
       >
-        <CircularProgress color="inherit" size="large" />
+        <CircularProgress color="primary" />
       </Backdrop>
 
     </div>

@@ -33,6 +33,7 @@ export interface GET_TODOS {
   type: ActionType.GET_TODOS_REQUEST | ActionType.GET_TODOS_SUCCESS | ActionType.GET_TODOS_FAILED,
   message?: string,
   todos?: Todo[],
+  error?: string[]
 }
 
 export interface GET_TODO {
@@ -44,14 +45,14 @@ export interface GET_TODO {
 
 export interface CREATE_TODO {
   type: ActionType.CREATE_TODO_REQUEST | ActionType.CREATE_TODO_SUCCESS | ActionType.CREATE_TODO_FAILED,
-  payload: Todo, 
+  payload: Todo,
   error?: string[]
   message?: string
 }
 
 export interface UPDATE_TODO {
   type: ActionType.UPDATE_TODO_REQUEST | ActionType.UPDATE_TODO_SUCCESS | ActionType.UPDATE_TODO_FAILED,
-  payload: Todo, 
+  payload: Todo,
   error?: string[],
   message?: string
 }

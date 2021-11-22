@@ -79,7 +79,7 @@ function* getTodos(action: GET_TODOS) {
     console.log({ data });
     yield put({ type: 'GET_TODOS_SUCCESS', todos: data, message })
   } catch (error: any) {
-    yield put({ type: 'GET_TODOS_FAILED', message: error.message })
+    yield put({ type: 'GET_TODOS_FAILED', message: error.message, error: ['Failed to fetch todos'] })
   }
 }
 
@@ -91,7 +91,7 @@ function* getTodoDetails(action: GET_TODO) {
     console.log({ data });
     yield put({ type: 'GET_TODO_SUCCESS', todos: data, message })
   } catch (error: any) {
-    yield put({ type: 'GET_TODO_FAILED', message: error.message })
+    yield put({ type: 'GET_TODO_FAILED', message: error.message, error: ["Couldn't get todo item details"] })
   }
 }
 
@@ -103,7 +103,7 @@ function* createTodo(action: CREATE_TODO) {
     console.log({ data });
     yield put({ type: 'CREATE_TODO_SUCCESS', payload: data, message })
   } catch (error: any) {
-    yield put({ type: 'CREATE_TODO_FAILED', message: error.message })
+    yield put({ type: 'CREATE_TODO_FAILED', message: error.message, error: ["Error creating todo item"] })
   }
 }
 
@@ -115,7 +115,7 @@ function* updateTodo(action: UPDATE_TODO) {
     console.log({ data });
     yield put({ type: 'UPDATE_TODO_SUCCESS', payload: data, message })
   } catch (error: any) {
-    yield put({ type: 'UPDATE_TODO_FAILED', message: error.message })
+    yield put({ type: 'UPDATE_TODO_FAILED', message: error.message, error: ["Error updating Todo item"] })
   }
 }
 
@@ -127,7 +127,7 @@ function* deleteTodo(action: DELETE_TODO) {
     console.log({ data });
     yield put({ type: 'DELETE_TODO_SUCCESS', payload: data, message })
   } catch (error: any) {
-    yield put({ type: 'DELETE_TODO_FAILED', message: error.message })
+    yield put({ type: 'DELETE_TODO_FAILED', message: error.message, error: ["Error deleting todo item"] })
   }
 }
 

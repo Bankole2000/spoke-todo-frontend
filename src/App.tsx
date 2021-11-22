@@ -97,10 +97,6 @@ const routes: Route[] = [
       },
     ],
   },
-  {
-    path: "cart",
-    element: <div>Cart Page</div>,
-  },
 ];
 
 const location = new ReactLocation();
