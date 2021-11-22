@@ -8,6 +8,8 @@ import { updateTodo, deleteTodo } from '../redux/actions/todoActions';
 import { Subtask, Todo } from "../interfaces/TodoInterface";
 import { RootState } from '../redux/reducers';
 import config from '../utils/config';
+import { formatTime } from '../utils/helpers';
+
 
 
 
@@ -22,6 +24,7 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
   const dispatch = useDispatch();
 
   const loading: boolean = useSelector((state: RootState) => state.todos["loading"]);
+  const errors: string[] = useSelector((state: RootState) => state.todos["errors"]);
   const [localLoading, setLocalLoading] = useState(false)
   const [localError, setLocalError] = useState("")
   const [editingTitle, setEditingTitle] = useState(false)
@@ -57,7 +60,9 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
     console.log({ key: e.key })
     if (e.key == 'Enter') {
       e.preventDefault();
-      saveTodo();
+      if (needsUpdate) {
+        saveTodo();
+      }
     }
   }
 
@@ -143,6 +148,7 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
         { title: '', completed: false }
       ])
     }
+    console.log({ hasSubtasks, itemSubtasks })
   }
   useEffect(() => {
     setLocalLoading(true);
@@ -164,6 +170,7 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
       .catch(e => {
         console.log({ e })
         setLocalError(e.message)
+        setLocalLoading(false);
       })
   }, [params.id])
   return (
@@ -188,6 +195,11 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
           <Collapse in={Boolean(localError)}>
             <Alert severity="error" sx={{ mb: 2 }}>
               {localError}
+            </Alert>
+          </Collapse>
+          <Collapse in={Boolean(errors.length)}>
+            <Alert severity="error" sx={{ mb: 2 }}>
+              {errors[0]}
             </Alert>
           </Collapse>
 
@@ -215,9 +227,12 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
           </Collapse>
           <hr />
         </div>
+        <Typography variant="body2" sx={{ mb: 0 }} color="text.secondary">
+          {formatTime(todoItem.createdAt ? todoItem.createdAt : Date.now())}
+        </Typography>
         {/* {JSON.stringify(todoItem)} */}
         {/* Notes Editing */}
-        <div style={{ margin: '30px auto' }}>
+        <div style={{ margin: '20px auto' }}>
           <Collapse in={!editingNotes}>
             <div onClick={() => {
               if (!localError) {
@@ -238,6 +253,7 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
         </div>
         {/* Mark as complete and save */}
         <div style={{ display: 'flex', alignItems: 'center' }}>
+
           <div style={{ flexGrow: 1 }}></div>
           <FormControlLabel control={<Checkbox name="completed" disabled={!Boolean(todoItem.title)} checked={todoItem.completed} onChange={markTaskAsDone} color="success" size="medium" />} label="Mark as completed" />
         </div>

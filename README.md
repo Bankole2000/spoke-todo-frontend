@@ -14,11 +14,11 @@ Built with
 ## Project is imcomplete - changes pending
 - [x] Update todos saga
 - [x] Delete Todos saga
-- [ ] Todo details page for editing todo items and item subtasks
-- [ ] Applying Feedback components (Snackbars, Alerts, Loaders)
-- [ ] Feedback on different states (loading, success, errors etc)
-- [ ] Tests
+- [x] Todo details page for editing todo items and item subtasks
+- [x] Applying Feedback components (Snackbars, Alerts, Loaders)
+- [x] Feedback on different states (loading, success, errors etc)
 - [ ] Code Cleanup
+- [ ] Tests
 
 # Getting Started with Create React App
 
