@@ -167,7 +167,7 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
   }, [params.id])
   return (
     <>
-      {loading || localLoading && <LinearProgress />}
+      {(loading || localLoading) && <LinearProgress />}
       <div style={{ maxWidth: '80vw', margin: '0px auto' }}>
 
         {/* Title Editing */}
