@@ -13,8 +13,8 @@ import { Todo } from '../../interfaces/TodoInterface';
 const TodoList: React.FunctionComponent = () => {
 
   const todos: Todo[] = useSelector((state: RootState) => state.todos["todos"])
-  const loading: boolean = useSelector((state: RootState) => state.todos["loading"]);
   const errors: string[] = useSelector((state: RootState) => state.todos["errors"]);
+  const loading: boolean = useSelector((state: RootState) => state.todos["loading"]);
   const message: string = useSelector((state: RootState) => state.todos["message"]);
   const messageType: AlertColor = useSelector((state: RootState) => state.todos["messageType"]);
   const dispatch = useDispatch();
@@ -23,6 +23,7 @@ const TodoList: React.FunctionComponent = () => {
   const reloadAllTodos = () => {
     dispatch(getTodos())
   }
+
   useEffect(() => {
     dispatch(getTodos())
   }, [])
@@ -30,14 +31,17 @@ const TodoList: React.FunctionComponent = () => {
   return (
     <div style={{ maxWidth: '80vw', margin: '20px auto', position: 'relative' }}>
       {
-        !loading && errors.length && <Alert severity={messageType} action={
-          <Button color="inherit" onClick={reloadAllTodos} endIcon={<SettingsBackupRestoreIcon />} size="small">
-            RESET
-          </Button>
-        }>{errors[0]}</Alert>
+        !loading &&
+        <Collapse in={Boolean(errors.length)}>
+          <Alert severity={messageType} sx={{ mb: 1 }} action={
+            <Button color="inherit" onClick={reloadAllTodos} endIcon={<SettingsBackupRestoreIcon />} size="small">
+              RESET
+            </Button>
+          }>{message}</Alert>
+        </Collapse>
       }
-      {loading && !todos.length && !errors.length &&
-        <Collapse in={loading}>
+      {loading &&
+        <Collapse in={!todos.length && !errors.length}>
           <Box sx={{ width: '100%' }}>
             <Typography style={{ textAlign: 'center', fontWeight: 'bold' }} color="secondary" variant="h5" component="div">
               Loading...

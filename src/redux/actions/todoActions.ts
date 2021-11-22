@@ -34,3 +34,9 @@ export const deleteTodo = (id: number | string | undefined) => {
     payload: id
   }
 }
+
+export const resetMessageType = () => {
+  return {
+    type: ActionType.RESET_MESSAGE_TYPE
+  }
+}

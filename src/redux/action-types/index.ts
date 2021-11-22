@@ -19,6 +19,7 @@ export enum ActionType {
   DELETE_TODOS_REQUEST = "DELETE_TODOS_REQUEST",
   DELETE_TODOS_SUCCESS = "DELETE_TODOS_SUCCESS",
   DELETE_TODOS_FAILED = "DELETE_TODOS_FAILED",
+  RESET_MESSAGE_TYPE = "RESET_MESSAGE_TYPE",
 }
 
 export enum MessageType {
@@ -71,4 +72,12 @@ interface DELETE_TODOS {
   message?: string
 }
 
-export type Action = GET_TODO | GET_TODOS | CREATE_TODO | UPDATE_TODO | DELETE_TODO | DELETE_TODOS;
+export interface RESET_MESSAGE_TYPE {
+  type: ActionType.RESET_MESSAGE_TYPE,
+  payload?: number | string,
+  error?: string[],
+  message?: string,
+}
+
+
+export type Action = GET_TODO | GET_TODOS | CREATE_TODO | UPDATE_TODO | DELETE_TODO | DELETE_TODOS | RESET_MESSAGE_TYPE;

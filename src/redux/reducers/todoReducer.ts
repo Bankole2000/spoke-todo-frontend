@@ -26,7 +26,7 @@ export default function todos(state = initialState, action: Action) {
         loading: true,
         errors: [],
         message: "Loading Todos",
-        messageType: "info"
+        messageType: undefined
       }
     case ActionType.GET_TODOS_SUCCESS:
       return {
@@ -51,7 +51,7 @@ export default function todos(state = initialState, action: Action) {
         loading: true,
         errors: [],
         message: "Creating Todo Item",
-        messageType: "info"
+        messageType: undefined
       };
     case ActionType.CREATE_TODO_SUCCESS:
       console.log(action)
@@ -68,7 +68,7 @@ export default function todos(state = initialState, action: Action) {
         message: action.message,
         messageType: "success"
       }
-    case ActionType.CREATE_TODO_FAILED: 
+    case ActionType.CREATE_TODO_FAILED:
       return {
         ...state,
         loading: false,
@@ -99,7 +99,7 @@ export default function todos(state = initialState, action: Action) {
         message: action.message,
         messageType: 'success'
       }
-    case ActionType.UPDATE_TODO_FAILED: 
+    case ActionType.UPDATE_TODO_FAILED:
       return {
         ...state,
         loading: false,
@@ -124,13 +124,18 @@ export default function todos(state = initialState, action: Action) {
         message: action.message,
         messageType: 'success'
       }
-    case ActionType.DELETE_TODO_FAILED: 
+    case ActionType.DELETE_TODO_FAILED:
       return {
         ...state,
         loading: false,
         message: action.message,
         errors: action.error,
         messageType: "error"
+      }
+    case ActionType.RESET_MESSAGE_TYPE:
+      return {
+        ...state,
+        messageType: undefined
       }
     default:
       return state;

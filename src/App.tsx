@@ -14,6 +14,11 @@ import SideNav from './components/common/SideNav';
 import Navbar from './components/common/Navbar';
 import Header from './components/Header';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { Snackbar, Alert, AlertColor } from '@mui/material';
+import { resetMessageType } from './redux/actions/todoActions';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from './redux/reducers';
+
 import { makeStyles } from '@mui/styles';
 
 const drawerWidth = 240
@@ -38,7 +43,7 @@ const useStyles = makeStyles((theme) => {
     active: {
       background: '#f4f4f4'
     },
-   
+
     appBar: {
       width: `calc(100% - ${drawerWidth}px)`,
       marginLeft: drawerWidth,
@@ -46,7 +51,7 @@ const useStyles = makeStyles((theme) => {
     date: {
       flexGrow: 1
     },
-   
+
   }
 })
 
@@ -102,6 +107,10 @@ const routes: Route[] = [
 const location = new ReactLocation();
 
 function App() {
+  const dispatch = useDispatch();
+  const loading: boolean = useSelector((state: RootState) => state.todos["loading"]);
+  const message: string = useSelector((state: RootState) => state.todos["message"]);
+  const messageType: AlertColor = useSelector((state: RootState) => state.todos["messageType"]);
   const classes = useStyles()
   return (
     <ThemeProvider theme={theme}>
@@ -112,7 +121,11 @@ function App() {
         <div>
           <Outlet />
         </div>
-
+        <Snackbar open={!loading && Boolean(messageType)} autoHideDuration={3000} onClose={() => dispatch(resetMessageType())}>
+          <Alert onClose={() => { }} severity={messageType} sx={{ width: '100%' }}>
+            {message}
+          </Alert>
+        </Snackbar>
       </Router>
     </ThemeProvider>
   );

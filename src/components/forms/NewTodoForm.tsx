@@ -108,6 +108,7 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
   const submitIfEnter = (e: React.KeyboardEvent<HTMLDivElement>) => {
     console.log({ key: e.key })
     if (e.key == 'Enter') {
+      e.preventDefault();
       addTodo();
     }
   }
@@ -130,6 +131,7 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
           value={newTodo.notes}
           onChange={handleChange}
           variant="outlined"
+          onKeyPress={submitIfEnter}
           color="secondary"
           name="notes"
           fullWidth
