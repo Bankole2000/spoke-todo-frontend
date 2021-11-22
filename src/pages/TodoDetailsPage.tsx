@@ -44,14 +44,20 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
   const params = useMatch().params;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    if (!needsUpdate) setNeedsUpdate(true);
-    console.log(e.target.value)
+
     setTodoItem(
       {
         ...todoItem,
         [e.target.name]: e.target.value
       }
     )
+    if (!needsUpdate) setNeedsUpdate(true);
+    console.log(e.target.value)
+    if (e.target.name == "title") {
+      if (todoItem.title.trim() && localError) {
+        setLocalError("");
+      }
+    }
   }
 
   const [needsUpdate, setNeedsUpdate] = useState(false)
@@ -60,6 +66,12 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
     console.log({ key: e.key })
     if (e.key == 'Enter') {
       e.preventDefault();
+      if (!todoItem.title.trim()) {
+        setLocalError("Todo Title is required");
+        return;
+      }
+      if (editingTitle) setEditingTitle(false);
+      if (editingNotes) setEditingNotes(false);
       if (needsUpdate) {
         saveTodo();
       }
@@ -69,6 +81,11 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
   const saveTodo = () => {
     setLocalError("");
     let updatedTodoInfo = { ...todoItem }
+    updatedTodoInfo.title = updatedTodoInfo.title.trim()
+    if (!updatedTodoInfo.title) {
+      setLocalError("Todo Title is required");
+      return;
+    }
     if (hasSubtasks) {
       updatedTodoInfo.subtasks = itemSubtasks
     } else {
@@ -307,7 +324,7 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
             <Button size="large" color="secondary" startIcon={<ArrowBackIcon />}>Back</Button>
           </Link>
           <div style={{ flexGrow: 1 }}></div>
-          <LoadingButton loadingPosition="end" loading={loading} size="large" variant="contained" onClick={saveTodo} disabled={!needsUpdate} color="primary" endIcon={<SendIcon style={{ color: 'white' }} />}>
+          <LoadingButton loadingPosition="end" loading={loading} size="large" variant="contained" onClick={saveTodo} disabled={!needsUpdate || !Boolean(todoItem.title.trim())} color="primary" endIcon={<SendIcon style={{ color: 'white' }} />}>
             <span style={{ color: 'white' }}>Save </span>
           </LoadingButton>
         </div>

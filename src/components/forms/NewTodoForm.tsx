@@ -26,6 +26,7 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
     subtasks: []
   })
   let [hasSubtasks, sethasSubtasks] = useState(false);
+  const [titleError, setTitleError] = useState(false)
   const [subTasks, setsubTasks] = useState<Subtask[]>([
     {
       title: '',
@@ -44,6 +45,8 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
     }
   }
 
+
+
   const addSubtask = () => {
     const newSubtask: Subtask = { title: '', completed: false }
     setsubTasks([
@@ -57,6 +60,9 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
   }
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     console.log(e.target.value)
+    if (e.target.name == "title" && e.target.value) {
+      setTitleError(false);
+    }
     setNewTodo(
       {
         ...newTodo,
@@ -82,6 +88,10 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
   }
 
   const addTodo = () => {
+    if (!newTodo.title.trim()) {
+      setTitleError(true);
+      return
+    }
     if (hasSubtasks) {
       newTodo.subtasks = subTasks
     }
@@ -120,6 +130,8 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
         onKeyPress={submitIfEnter}
         variant="outlined"
         color="secondary"
+        error={titleError}
+        helperText={titleError ? "Title is required" : false}
         name="title" value={newTodo.title} onChange={handleChange}
         fullWidth
         required
