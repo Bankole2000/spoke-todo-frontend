@@ -4,9 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { getTodos } from '../../redux/actions/todoActions';
 import { RootState } from '../../redux/reducers';
-import { Grid, Grow, Box, LinearProgress, Typography, Collapse, Alert, AlertTitle, Button, Backdrop, CircularProgress, AlertColor } from '@mui/material';
+import { Grid, Box, LinearProgress, Typography, Collapse, Alert, AlertTitle, Button, Backdrop, CircularProgress, AlertColor } from '@mui/material';
 import { SettingsBackupRestore as SettingsBackupRestoreIcon } from '@mui/icons-material';
-import { TransitionGroup } from 'react-transition-group';
 import TodoItem from './TodoItem';
 import { Todo } from '../../interfaces/TodoInterface';
 
@@ -19,13 +18,13 @@ const TodoList: React.FunctionComponent = () => {
   const messageType: AlertColor = useSelector((state: RootState) => state.todos["messageType"]);
   const dispatch = useDispatch();
 
-  // const { getAllTodos } = bindActionCreators(actionCreators, dispatch)
   const reloadAllTodos = () => {
     dispatch(getTodos())
   }
 
   useEffect(() => {
     dispatch(getTodos())
+    // eslint-disable-next-line
   }, [])
 
   return (
@@ -54,7 +53,7 @@ const TodoList: React.FunctionComponent = () => {
       <Collapse in={todos.length > 0}>
         <Box sx={{ flexGrow: 1 }}>
           <Grid container justifyContent="start" spacing={2}>
-            {todos.map((todo, i) => (
+            {todos.map((todo) => (
               <Grid item xs={12} md={4} sm={6} key={todo.id}>
                 <TodoItem todo={todo}></TodoItem>
               </Grid>
@@ -74,7 +73,9 @@ const TodoList: React.FunctionComponent = () => {
             Looks like You don't have any todos — <strong>Let's make one 📝</strong>
           </Alert>
         </Collapse>
-      }{loading &&
+      }
+
+      {loading &&
         <Backdrop
           sx={{ color: (theme) => theme.palette.primary.main, zIndex: (theme) => theme.zIndex.drawer + 1, position: 'absolute' }}
           open={Boolean(todos.length)}
@@ -83,8 +84,6 @@ const TodoList: React.FunctionComponent = () => {
           <CircularProgress color="primary" />
         </Backdrop>
       }
-      {/* Todo List Component
-      <button onClick={() => dispatch(getSingleTodo(6))}>Just a button</button> */}
     </div>
   );
 };

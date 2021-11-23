@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Todo } from '../../interfaces/TodoInterface';
 import { formatTime } from '../../utils/helpers';
-import { Card, CardContent, Typography, CardActions, Button, Box, FormControlLabel, Checkbox, IconButton } from '@mui/material';
+import { Card, CardContent, Typography, CardActions, FormControlLabel, Checkbox, IconButton } from '@mui/material';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { updateTodo, deleteTodo } from '../../redux/actions/todoActions';
 import { useDispatch } from "react-redux";
@@ -55,17 +55,11 @@ const TodoItem: React.FunctionComponent<ITodoItemProps> = ({ todo }) => {
   const dispatch = useDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // e.stopPropagation();
-    // e.nativeEvent.stopImmediatePropagation();
-    console.log({ e, value: e.target.checked })
     const updateTodoInfo = { ...todo, completed: e.target.checked }
-    console.log({ updateTodoInfo })
     dispatch(updateTodo(updateTodoInfo));
   }
 
   const handleDelete = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    // e.stopPropagation();
-    // e.nativeEvent.stopImmediatePropagation();
     dispatch(deleteTodo(todo.id));
   }
 

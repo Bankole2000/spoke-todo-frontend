@@ -1,5 +1,5 @@
-import { Button, TextField, Checkbox, Collapse, FormControlLabel, InputAdornment, IconButton, Backdrop, CircularProgress } from "@mui/material";
-import { Send as SendIcon, Add as AddIcon, Clear as ClearIcon } from '@mui/icons-material';
+import { Button, TextField, Checkbox, Collapse, FormControlLabel, Backdrop, CircularProgress } from "@mui/material";
+import { Send as SendIcon } from '@mui/icons-material';
 import { FunctionComponent, useState } from "react";
 import { TransitionGroup } from 'react-transition-group';
 import { Subtask, Todo } from "../../interfaces/TodoInterface";
@@ -17,7 +17,7 @@ interface TodoFormProps {
 
 const TodoForm: FunctionComponent<TodoFormProps> = () => {
   const dispatch = useDispatch();
-  const todos = useSelector((state: RootState) => state.todos["todos"])
+
   const loading = useSelector((state: RootState) => state.todos["loading"])
   const [newTodo, setNewTodo] = useState<Todo>({
     title: '',
@@ -59,8 +59,8 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
     setsubTasks(filteredSubtasks);
   }
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    console.log(e.target.value)
-    if (e.target.name == "title" && e.target.value) {
+
+    if (e.target.name === "title" && e.target.value) {
       setTitleError(false);
     }
     setNewTodo(
@@ -71,9 +71,9 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
     )
   }
   const handleSubtaskChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, i: number) => {
-    console.log(e.target.value, i)
+
     setsubTasks(subTasks.map((task, index) =>
-      index == i
+      index === i
         ? { ...task, [e.target.name]: e.target.value }
         : task
     ));
@@ -95,7 +95,7 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
     if (hasSubtasks) {
       newTodo.subtasks = subTasks
     }
-    console.log({ newTodo })
+
     dispatch(createTodo(newTodo))
     setNewTodo(
       {
@@ -112,12 +112,12 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
         completed: false,
       }
     ])
-    console.log({ todos })
+
   }
 
   const submitIfEnter = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    console.log({ key: e.key })
-    if (e.key == 'Enter') {
+
+    if (e.key === 'Enter') {
       e.preventDefault();
       addTodo();
     }
@@ -146,6 +146,7 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
           onKeyPress={submitIfEnter}
           color="secondary"
           name="notes"
+          placeholder={`Add notes to "${newTodo.title}"`}
           fullWidth
           multiline
           rows={2}

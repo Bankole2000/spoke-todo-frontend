@@ -73,14 +73,14 @@ function deleteAll() {
 }
 
 function* getTodos(action: GET_TODOS) {
-  console.log({ action })
+
   try {
     const { message, success, errors, data } = yield call(getAll)
     if (!success) {
       yield put({ type: 'GET_TODOS_FAILED', message, error: errors })
       return;
     }
-    console.log({ data });
+
     yield put({ type: 'GET_TODOS_SUCCESS', todos: data, message })
   } catch (error: any) {
     yield put({ type: 'GET_TODOS_FAILED', message: error.message, error: ['Failed to fetch todos'] })
@@ -88,7 +88,7 @@ function* getTodos(action: GET_TODOS) {
 }
 
 function* getTodoDetails(action: GET_TODO) {
-  console.log({ action })
+
   try {
     const request = getSingle(action.payload)
     const { message, success, errors, data } = yield request
@@ -103,7 +103,7 @@ function* getTodoDetails(action: GET_TODO) {
 }
 
 function* createTodo(action: CREATE_TODO) {
-  console.log({ action, payload: action.payload })
+
   try {
     const request = create(action.payload)
     const { message, success, errors, data } = yield request
@@ -118,7 +118,7 @@ function* createTodo(action: CREATE_TODO) {
 }
 
 function* updateTodo(action: UPDATE_TODO) {
-  console.log({ action, payload: action.payload })
+
   try {
     const request = update(action.payload)
     const { message, success, errors, data } = yield request
@@ -133,7 +133,7 @@ function* updateTodo(action: UPDATE_TODO) {
 }
 
 function* deleteTodo(action: DELETE_TODO) {
-  console.log({ action, payload: action.payload })
+
   try {
     const request = deleteSingle(action.payload)
     const { message, success, errors, data } = yield request
@@ -148,7 +148,7 @@ function* deleteTodo(action: DELETE_TODO) {
 }
 
 function* deleteAllTodos(action: DELETE_TODOS) {
-  console.log({ action, payload: action.payload })
+
   try {
     const request = deleteAll()
     const { message, success, errors, data } = yield request

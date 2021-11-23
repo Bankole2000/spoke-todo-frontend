@@ -1,10 +1,10 @@
-import { Button, TextField, Checkbox, Collapse, FormControlLabel, IconButton, Backdrop, LinearProgress, Typography, Alert, AlertColor, AlertTitle, CircularProgress } from "@mui/material";
+import { Button, TextField, Checkbox, Collapse, FormControlLabel, IconButton, Backdrop, LinearProgress, Typography, Alert, CircularProgress } from "@mui/material";
 import { LoadingButton } from '@mui/lab';
 import { FunctionComponent, useEffect, useState } from "react";
 import { Create as CreateIcon, ArrowBack as ArrowBackIcon, Add as AddIcon, Send as SendIcon, Clear as ClearIcon, Save as SaveIcon } from '@mui/icons-material';
 import { Link, useMatch } from 'react-location';
 import { useDispatch, useSelector } from "react-redux";
-import { updateTodo, deleteTodo } from '../redux/actions/todoActions';
+import { updateTodo } from '../redux/actions/todoActions';
 import { Subtask, Todo } from "../interfaces/TodoInterface";
 import { RootState } from '../redux/reducers';
 import config from '../utils/config';
@@ -52,8 +52,8 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
       }
     )
     if (!needsUpdate) setNeedsUpdate(true);
-    console.log(e.target.value)
-    if (e.target.name == "title") {
+
+    if (e.target.name === "title") {
       if (todoItem.title.trim() && localError) {
         setLocalError("");
       }
@@ -63,8 +63,8 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
   const [needsUpdate, setNeedsUpdate] = useState(false)
 
   const submitIfEnter = (e: React.KeyboardEvent<HTMLDivElement>) => {
-    console.log({ key: e.key })
-    if (e.key == 'Enter') {
+
+    if (e.key === 'Enter') {
       e.preventDefault();
       if (!todoItem.title.trim()) {
         setLocalError("Todo Title is required");
@@ -94,7 +94,7 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
     setTodoItem({
       ...updatedTodoInfo
     })
-    console.log({ updatedTodoInfo })
+
     dispatch(updateTodo(updatedTodoInfo))
     setEditingTitle(false)
     setEditingNotes(false)
@@ -102,7 +102,7 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
   }
   const handleSubtaskChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, i: number) => {
     if (!needsUpdate) setNeedsUpdate(true);
-    console.log(e.target.value)
+
     setItemSubtasks(
       itemSubtasks.map((task, j) => {
         if (i === j) {
@@ -115,7 +115,7 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
   }
 
   const markSubtaskAsDone = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
-    console.log({ e, value: e.target.checked })
+
     if (!needsUpdate) setNeedsUpdate(true);
     setItemSubtasks(
       itemSubtasks.map((task, j) => {
@@ -165,14 +165,14 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
         { title: '', completed: false }
       ])
     }
-    console.log({ hasSubtasks, itemSubtasks })
+
   }
   useEffect(() => {
     setLocalLoading(true);
     fetch(`${config.baseUrl}/api/todos/${params.id}`)
       .then(res => res.json())
       .then(data => {
-        let { data: todoData, success, message, errors } = data;
+        let { data: todoData, success, message } = data;
         if (success) {
           setTodoItem(todoData);
           if (todoData.subtasks.length) {
@@ -185,7 +185,7 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
         setLocalLoading(false);
       })
       .catch(e => {
-        console.log({ e })
+
         setLocalError(e.message)
         setLocalLoading(false);
       })
@@ -292,7 +292,7 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
                   <li key={i} style={{ fontSize: '24px', margin: '20px auto' }}>
                     <div style={{ display: 'flex', alignItems: 'center' }}>
                       <TextField fullWidth onKeyPress={(e) => {
-                        if (e.key == "Enter" && i == itemSubtasks.length - 1) {
+                        if (e.key === "Enter" && i === itemSubtasks.length - 1) {
                           e.preventDefault();
                           addSubtask()
                         }

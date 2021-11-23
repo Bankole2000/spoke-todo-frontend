@@ -18,7 +18,7 @@ const initialState: TodoStateInterface = {
 };
 
 export default function todos(state = initialState, action: Action) {
-  console.log({ action })
+
   switch (action.type) {
     case ActionType.GET_TODOS_REQUEST:
       return {
@@ -54,9 +54,7 @@ export default function todos(state = initialState, action: Action) {
         messageType: undefined
       };
     case ActionType.CREATE_TODO_SUCCESS:
-      console.log(action)
-      // state.todos.push(action.payload);
-      console.log({ state, newTodo: action.payload })
+
       return {
         ...state,
         todos: [
@@ -88,7 +86,7 @@ export default function todos(state = initialState, action: Action) {
       return {
         ...state,
         todos: state.todos.map((todo) => {
-          if (todo.id == action.payload.id) {
+          if (todo.id === action.payload.id) {
             return action.payload
           } else {
             return todo;
@@ -118,7 +116,7 @@ export default function todos(state = initialState, action: Action) {
     case ActionType.DELETE_TODO_SUCCESS:
       return {
         ...state,
-        todos: state.todos.filter(todo => todo.id != action.payload),
+        todos: state.todos.filter(todo => todo.id !== action.payload),
         loading: false,
         errors: [],
         message: action.message,
