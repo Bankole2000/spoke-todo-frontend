@@ -227,7 +227,7 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
                   <ArrowBackIcon></ArrowBackIcon>
                 </IconButton>
               </Link>
-              <h1 style={{ margin: '5px auto', cursor: 'pointer', textDecoration: `${todoItem.completed ? 'line-through #c3c3c3' : 'none'}` }} onClick={() => setEditingTitle(true)}>{todoItem ? todoItem.title : ''}</h1>
+              <h1 style={{ margin: '5px auto', cursor: 'pointer', textDecoration: `${todoItem.completed ? 'line-through #999999' : 'none'}` }} onClick={() => setEditingTitle(true)}>{todoItem ? todoItem.title : ''}</h1>
               <div style={{ flexGrow: 1, cursor: 'pointer' }} onClick={() => setEditingTitle(true)}></div>
               <IconButton disabled={Boolean(localError)} size="large" onClick={() => setEditingTitle(true)}>
                 <CreateIcon></CreateIcon>
@@ -296,7 +296,7 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
                           e.preventDefault();
                           addSubtask()
                         }
-                      }} value={task.title} onChange={(e) => handleSubtaskChange(e, i)} inputProps={{ style: { fontSize: 20 } }} variant="standard" name="title"></TextField>
+                      }} value={task.title} onChange={(e) => handleSubtaskChange(e, i)} inputProps={{ style: { fontSize: 20, textDecoration: `${task.completed ? 'line-through #313131' : 'none'}` } }} variant="standard" name="title"></TextField>
                       <FormControlLabel control={<Checkbox name="completed" disabled={!Boolean(task.title)} checked={task.completed} onChange={(e) => markSubtaskAsDone(e, i)} color="success" size="medium" />} label="Done" />
                       {itemSubtasks.length > 1 && <IconButton color="error" onClick={() => removeSubtask(i)}>
                         <ClearIcon></ClearIcon>

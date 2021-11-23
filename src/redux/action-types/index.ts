@@ -65,7 +65,7 @@ export interface DELETE_TODO {
   message?: string
 }
 
-interface DELETE_TODOS {
+export interface DELETE_TODOS {
   type: ActionType.DELETE_TODOS_REQUEST | ActionType.DELETE_TODOS_SUCCESS | ActionType.DELETE_TODOS_FAILED,
   payload?: number | string,
   error?: string[],

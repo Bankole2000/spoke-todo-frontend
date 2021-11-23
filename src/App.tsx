@@ -5,55 +5,17 @@ import {
   Route,
   Outlet,
   ReactLocation,
-  Link,
-  useMatch,
 } from "react-location";
 import TodoListPage from './pages/TodoListPage';
 import TodoDetailsPage from './pages/TodoDetailsPage';
-import SideNav from './components/common/SideNav';
-import Navbar from './components/common/Navbar';
-import Header from './components/Header';
+
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Snackbar, Alert, AlertColor } from '@mui/material';
 import { resetMessageType } from './redux/actions/todoActions';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './redux/reducers';
 
-import { makeStyles } from '@mui/styles';
 
-const drawerWidth = 240
-
-const useStyles = makeStyles((theme) => {
-  return {
-    page: {
-      background: '#f9f9f9',
-      width: '100%',
-      // padding: theme.spacing(3),
-      paddingLeft: '240px', paddingTop: "64px"
-    },
-    root: {
-      display: 'flex',
-    },
-    drawer: {
-      width: drawerWidth,
-    },
-    drawerPaper: {
-      width: drawerWidth,
-    },
-    active: {
-      background: '#f4f4f4'
-    },
-
-    appBar: {
-      width: `calc(100% - ${drawerWidth}px)`,
-      marginLeft: drawerWidth,
-    },
-    date: {
-      flexGrow: 1
-    },
-
-  }
-})
 
 
 const theme = createTheme({
@@ -111,13 +73,10 @@ function App() {
   const loading: boolean = useSelector((state: RootState) => state.todos["loading"]);
   const message: string = useSelector((state: RootState) => state.todos["message"]);
   const messageType: AlertColor = useSelector((state: RootState) => state.todos["messageType"]);
-  const classes = useStyles()
+
   return (
     <ThemeProvider theme={theme}>
       <Router routes={routes} location={location}>
-        {/* <SideNav /> */}
-        {/* <Navbar />  */}
-        {/* <Header title="Hello World" color="red" /> */}
         <div>
           <Outlet />
         </div>
