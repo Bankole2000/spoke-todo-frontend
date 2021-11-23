@@ -126,7 +126,7 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
     <div style={{ width: '80vw', display: 'flex', flexDirection: 'column', alignItems: 'center', margin: '20px auto', position: 'relative' }}>
       <TextField
         style={{ margin: '20px 20px' }}
-        label="Add A Todo"
+        label="Add A To-do"
         onKeyPress={submitIfEnter}
         variant="outlined"
         color="secondary"

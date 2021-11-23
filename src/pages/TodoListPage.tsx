@@ -11,7 +11,7 @@ const TodoListPage: FunctionComponent = () => {
       <TodoForm />
 
       <div style={{ width: '80vw', margin: '0px auto' }}>
-        <h1 style={{ marginBottom: '5px' }}>Your Current Todos</h1>
+        <h1 style={{ marginBottom: '5px' }}>Current To-dos</h1>
         <hr />
       </div>
 

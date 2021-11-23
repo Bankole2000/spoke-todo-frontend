@@ -1,7 +1,8 @@
 import { Button, TextField, Checkbox, Collapse, FormControlLabel, IconButton, Backdrop, LinearProgress, Typography, Alert, CircularProgress } from "@mui/material";
 import { LoadingButton } from '@mui/lab';
 import { FunctionComponent, useEffect, useState } from "react";
-import { Create as CreateIcon, ArrowBack as ArrowBackIcon, Add as AddIcon, Send as SendIcon, Clear as ClearIcon, Save as SaveIcon } from '@mui/icons-material';
+import { Create as CreateIcon, ArrowBack as ArrowBackIcon, Add as AddIcon, Send as SendIcon, Save as SaveIcon } from '@mui/icons-material';
+import { TransitionGroup } from 'react-transition-group';
 import { Link, useMatch } from 'react-location';
 import { useDispatch, useSelector } from "react-redux";
 import { updateTodo } from '../redux/actions/todoActions';
@@ -9,6 +10,7 @@ import { Subtask, Todo } from "../interfaces/TodoInterface";
 import { RootState } from '../redux/reducers';
 import config from '../utils/config';
 import { formatTime } from '../utils/helpers';
+import EditSubtaskForm from "../components/forms/EditSubtaskForm";
 
 
 const TodoDetailsPage: FunctionComponent = () => {
@@ -268,7 +270,6 @@ const TodoDetailsPage: FunctionComponent = () => {
           <FormControlLabel control={<Checkbox name="completed" disabled={!Boolean(todoItem.title)} checked={todoItem.completed} onChange={markTaskAsDone} color="success" size="medium" />} label="Mark as completed" />
         </div>
 
-
         {/* Subtasks Editing */}
         <div>
           <div style={{ display: 'flex', alignItems: 'end' }}>
@@ -280,28 +281,13 @@ const TodoDetailsPage: FunctionComponent = () => {
           <div>
             <Collapse in={Boolean(itemSubtasks.length)}>
               <ol>
-                {itemSubtasks.map((task, i) => (
-                  <li key={i} style={{ fontSize: '24px', margin: '20px auto' }}>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                      <TextField fullWidth onKeyPress={(e) => {
-                        if (e.key === "Enter" && i === itemSubtasks.length - 1) {
-                          e.preventDefault();
-                          addSubtask()
-                        }
-                      }} value={task.title} onChange={(e) => handleSubtaskChange(e, i)} inputProps={{ style: { fontSize: 20, textDecoration: `${task.completed ? 'line-through #313131' : 'none'}` } }} variant="standard" name="title"></TextField>
-                      <FormControlLabel control={<Checkbox name="completed" disabled={!Boolean(task.title)} checked={task.completed} onChange={(e) => markSubtaskAsDone(e, i)} color="success" size="medium" />} label="Done" />
-                      {itemSubtasks.length > 1 && <IconButton color="error" onClick={() => removeSubtask(i)}>
-                        <ClearIcon></ClearIcon>
-                      </IconButton>}
-                      {i === itemSubtasks.length - 1 &&
-                        <IconButton disabled={!Boolean(task.title)} onClick={addSubtask} color="info">
-                          <AddIcon></AddIcon>
-                        </IconButton>
-                      }
-                    </div>
-
-                  </li>
-                ))}
+                <TransitionGroup>
+                  {itemSubtasks.map((task, i) => (
+                    <Collapse key={i}>
+                      <EditSubtaskForm i={i} task={task} itemSubtasks={itemSubtasks} addSubtask={addSubtask} handleSubtaskChange={handleSubtaskChange} markSubtaskAsDone={markSubtaskAsDone} removeSubtask={removeSubtask}></EditSubtaskForm>
+                    </Collapse>
+                  ))}
+                </TransitionGroup>
               </ol>
             </Collapse>
             <Collapse in={!Boolean(itemSubtasks.length)} sx={{ mb: 2 }}>
