@@ -11,25 +11,19 @@ import config from '../utils/config';
 import { formatTime } from '../utils/helpers';
 
 
-
-
-
-
-interface TodoDetailsPageProps {
-
-}
-
-const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
+const TodoDetailsPage: FunctionComponent = () => {
 
   const dispatch = useDispatch();
 
+  // Redux State
   const loading: boolean = useSelector((state: RootState) => state.todos["loading"]);
   const errors: string[] = useSelector((state: RootState) => state.todos["errors"]);
+
+  // Local State
   const [localLoading, setLocalLoading] = useState(false)
   const [localError, setLocalError] = useState("")
   const [editingTitle, setEditingTitle] = useState(false)
   const [editingNotes, setEditingNotes] = useState(false)
-
   const [hasSubtasks, setHasSubtasks] = useState(false)
   const [todoItem, setTodoItem] = useState<Todo>(
     {
@@ -39,12 +33,14 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
       subtasks: [],
       completed: false,
     })
-
   const [itemSubtasks, setItemSubtasks] = useState<Subtask[]>([])
+  const [needsUpdate, setNeedsUpdate] = useState(false)
+
+  // Route Params
   const params = useMatch().params;
 
+  // Handle Title and Notes inputs
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-
     setTodoItem(
       {
         ...todoItem,
@@ -52,7 +48,6 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
       }
     )
     if (!needsUpdate) setNeedsUpdate(true);
-
     if (e.target.name === "title") {
       if (todoItem.title.trim() && localError) {
         setLocalError("");
@@ -60,10 +55,8 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
     }
   }
 
-  const [needsUpdate, setNeedsUpdate] = useState(false)
-
+  // Update todo on enter key (title & notes inputs)
   const submitIfEnter = (e: React.KeyboardEvent<HTMLDivElement>) => {
-
     if (e.key === 'Enter') {
       e.preventDefault();
       if (!todoItem.title.trim()) {
@@ -78,6 +71,7 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
     }
   }
 
+  // Update todo on valid inputs
   const saveTodo = () => {
     setLocalError("");
     let updatedTodoInfo = { ...todoItem }
@@ -100,9 +94,9 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
     setEditingNotes(false)
     setNeedsUpdate(false);
   }
+
   const handleSubtaskChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, i: number) => {
     if (!needsUpdate) setNeedsUpdate(true);
-
     setItemSubtasks(
       itemSubtasks.map((task, j) => {
         if (i === j) {
@@ -115,7 +109,6 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
   }
 
   const markSubtaskAsDone = (e: React.ChangeEvent<HTMLInputElement>, i: number) => {
-
     if (!needsUpdate) setNeedsUpdate(true);
     setItemSubtasks(
       itemSubtasks.map((task, j) => {
@@ -165,8 +158,8 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
         { title: '', completed: false }
       ])
     }
-
   }
+
   useEffect(() => {
     setLocalLoading(true);
     fetch(`${config.baseUrl}/api/todos/${params.id}`)
@@ -247,7 +240,7 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
         <Typography variant="body2" sx={{ mb: 0 }} color="text.secondary">
           {formatTime(todoItem.createdAt ? todoItem.createdAt : Date.now())}
         </Typography>
-        {/* {JSON.stringify(todoItem)} */}
+
         {/* Notes Editing */}
         <div style={{ margin: '20px auto' }}>
           <Collapse in={!editingNotes}>
@@ -268,9 +261,9 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
             <TextField multiline rows={3} placeholder={`Add notes to "${todoItem.title}"`} onKeyPress={submitIfEnter} label="Notes" value={todoItem.notes} inputProps={{ style: { fontSize: 20 } }} fullWidth color="secondary" name="notes" onChange={handleChange}></TextField>
           </Collapse>
         </div>
-        {/* Mark as complete and save */}
-        <div style={{ display: 'flex', alignItems: 'center' }}>
 
+        {/* Mark as complete */}
+        <div style={{ display: 'flex', alignItems: 'center' }}>
           <div style={{ flexGrow: 1 }}></div>
           <FormControlLabel control={<Checkbox name="completed" disabled={!Boolean(todoItem.title)} checked={todoItem.completed} onChange={markTaskAsDone} color="success" size="medium" />} label="Mark as completed" />
         </div>
@@ -279,13 +272,12 @@ const TodoDetailsPage: FunctionComponent<TodoDetailsPageProps> = () => {
         {/* Subtasks Editing */}
         <div>
           <div style={{ display: 'flex', alignItems: 'end' }}>
-
             <h2 style={{ margin: '10px' }}>Subtasks {itemSubtasks.length ? (<span style={{ fontWeight: 'lighter' }}>({itemSubtasks.length})</span>) : ("")}</h2>
             <div style={{ flexGrow: 1 }}></div>
             <Button variant="outlined" disabled={!Boolean(todoItem.title)} onClick={() => toggleHasSubtasks()}>{hasSubtasks ? 'Remove' : 'Add'} Tasks</Button>
           </div>
           <hr />
-          <div >
+          <div>
             <Collapse in={Boolean(itemSubtasks.length)}>
               <ol>
                 {itemSubtasks.map((task, i) => (

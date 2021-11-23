@@ -130,6 +130,8 @@ const TodoForm: FunctionComponent<TodoFormProps> = () => {
         onKeyPress={submitIfEnter}
         variant="outlined"
         color="secondary"
+        placeholder="What would you like to get done?"
+        autoFocus
         error={titleError}
         helperText={titleError ? "Title is required" : false}
         name="title" value={newTodo.title} onChange={handleChange}

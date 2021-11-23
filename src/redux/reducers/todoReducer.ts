@@ -116,7 +116,7 @@ export default function todos(state = initialState, action: Action) {
     case ActionType.DELETE_TODO_SUCCESS:
       return {
         ...state,
-        todos: state.todos.filter(todo => todo.id !== action.payload),
+        todos: state.todos.filter(todo => todo.id !== +action.payload),
         loading: false,
         errors: [],
         message: action.message,

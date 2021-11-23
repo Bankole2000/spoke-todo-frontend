@@ -1,5 +1,5 @@
 export type Todo = {
-  id?: string;
+  id?: string | number,
   title: string,
   notes: string,
   subtasks: Subtask[],
