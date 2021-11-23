@@ -1,7 +1,7 @@
 import { Button, TextField, Checkbox, Collapse, FormControlLabel, IconButton, Backdrop, LinearProgress, Typography, Alert, CircularProgress } from "@mui/material";
 import { LoadingButton } from '@mui/lab';
 import { FunctionComponent, useEffect, useState } from "react";
-import { Create as CreateIcon, ArrowBack as ArrowBackIcon, Add as AddIcon, Send as SendIcon, Save as SaveIcon } from '@mui/icons-material';
+import { Create as CreateIcon, ArrowBack as ArrowBackIcon, Add as AddIcon, Send as SendIcon } from '@mui/icons-material';
 import { TransitionGroup } from 'react-transition-group';
 import { Link, useMatch } from 'react-location';
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,7 @@ import { RootState } from '../redux/reducers';
 import config from '../utils/config';
 import { formatTime } from '../utils/helpers';
 import EditSubtaskForm from "../components/forms/EditSubtaskForm";
+import EditTodoAlerts from "../components/common/EditTodoAlerts";
 
 
 const TodoDetailsPage: FunctionComponent = () => {
@@ -185,6 +186,7 @@ const TodoDetailsPage: FunctionComponent = () => {
         setLocalLoading(false);
       })
   }, [params.id])
+
   return (
     <>
       {(loading || localLoading) && <LinearProgress />}
@@ -192,43 +194,8 @@ const TodoDetailsPage: FunctionComponent = () => {
 
         {/* Title Editing */}
         <div style={{ marginTop: '40px' }}>
+          <EditTodoAlerts saveTodo={saveTodo} setEditingTitle={setEditingTitle} todoItem={todoItem} errors={errors} loading={loading} needsUpdate={needsUpdate} editingTitle={editingTitle} localError={localError} />
 
-          <Collapse in={needsUpdate}>
-            <Alert style={{ cursor: "pointer", marginBottom: '20px' }} onClick={saveTodo} severity="warning"
-              action={
-                <LoadingButton onClick={saveTodo} loading={loading} color="inherit" size="small" loadingPosition="end" endIcon={<SaveIcon />}>
-                  Save
-                </LoadingButton>
-              }
-            >
-              You have unsaved changes
-            </Alert>
-          </Collapse>
-          <Collapse in={Boolean(localError)}>
-            <Alert severity="error" sx={{ mb: 2 }}>
-              {localError}
-            </Alert>
-          </Collapse>
-          <Collapse in={Boolean(errors.length)}>
-            <Alert severity="error" sx={{ mb: 2 }}>
-              {errors[0]}
-            </Alert>
-          </Collapse>
-
-          <Collapse in={!editingTitle}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
-              <Link to="/">
-                <IconButton size="large" sx={{ mr: 1 }}>
-                  <ArrowBackIcon></ArrowBackIcon>
-                </IconButton>
-              </Link>
-              <h1 style={{ margin: '5px auto', cursor: 'pointer', textDecoration: `${todoItem.completed ? 'line-through #999999' : 'none'}` }} onClick={() => setEditingTitle(true)}>{todoItem ? todoItem.title : ''}</h1>
-              <div style={{ flexGrow: 1, cursor: 'pointer' }} onClick={() => setEditingTitle(true)}></div>
-              <IconButton disabled={Boolean(localError)} size="large" onClick={() => setEditingTitle(true)}>
-                <CreateIcon></CreateIcon>
-              </IconButton>
-            </div>
-          </Collapse>
           <Collapse in={editingTitle}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <TextField onKeyPress={submitIfEnter} label="Title" value={todoItem.title} inputProps={{ style: { fontSize: 30 } }} fullWidth color="secondary" name="title" onChange={handleChange}></TextField>
