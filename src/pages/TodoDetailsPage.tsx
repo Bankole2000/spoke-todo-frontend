@@ -236,7 +236,7 @@ const TodoDetailsPage: FunctionComponent = () => {
         {/* Mark as complete */}
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <div style={{ flexGrow: 1 }}></div>
-          <Tooltip title={`Mark "${todoItem.title}" as completed`} placement="top" arrow>
+          <Tooltip title={`Click to mark "${todoItem.title}" as ${todoItem.completed ? 'incomplete' : 'completed'}`} placement="top" arrow>
             <FormControlLabel control={<Checkbox name="completed" disabled={!Boolean(todoItem.title)} checked={todoItem.completed} onChange={markTaskAsDone} color="success" size="medium" />} label="Mark as completed" />
           </Tooltip>
         </div>

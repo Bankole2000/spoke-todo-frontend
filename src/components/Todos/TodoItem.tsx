@@ -90,7 +90,7 @@ const TodoItem: React.FunctionComponent<ITodoItemProps> = ({ todo }) => {
           </CardContent>
         </Link>
         <CardActions style={{ display: 'flex', alignItems: 'center', paddingLeft: '20px', paddingRight: '10px' }}>
-          <Tooltip title="Mark as completed" placement="top" arrow>
+          <Tooltip title={`Click to mark as ${todo.completed ? 'incomplete' : 'completed'}`} placement="top" arrow>
             <FormControlLabel control={<Checkbox name="completed" onChange={handleChange} checked={todo.completed} color="success" size="medium" />} label="Completed" />
           </Tooltip>
           <Link to={`/todo/${todo.id}`} style={{ textDecoration: 'none' }}>
