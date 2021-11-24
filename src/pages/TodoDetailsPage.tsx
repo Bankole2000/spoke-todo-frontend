@@ -1,4 +1,4 @@
-import { Button, TextField, Checkbox, Collapse, FormControlLabel, IconButton, Backdrop, LinearProgress, Typography, Alert, CircularProgress } from "@mui/material";
+import { Button, TextField, Checkbox, Collapse, FormControlLabel, IconButton, Backdrop, LinearProgress, Typography, Alert, CircularProgress, Tooltip } from "@mui/material";
 import { LoadingButton } from '@mui/lab';
 import { FunctionComponent, useEffect, useState } from "react";
 import { Create as CreateIcon, ArrowBack as ArrowBackIcon, Add as AddIcon, Send as SendIcon } from '@mui/icons-material';
@@ -221,9 +221,11 @@ const TodoDetailsPage: FunctionComponent = () => {
               <Typography color={todoItem.notes ? 'primary' : '#BBC0C5'} variant="h5" component="div">
                 {todoItem.notes ? todoItem.notes : 'No Notes for this todo item.'}
               </Typography>
-              <IconButton disabled={Boolean(localError)} size="large" onClick={() => setEditingNotes(true)}>
-                {todoItem.notes ? (<CreateIcon></CreateIcon>) : (<AddIcon color="info"></AddIcon>)}
-              </IconButton>
+              <Tooltip title="Add / Edit to-do notes" placement="top" arrow>
+                <IconButton disabled={Boolean(localError)} size="large" onClick={() => setEditingNotes(true)}>
+                  {todoItem.notes ? (<CreateIcon></CreateIcon>) : (<AddIcon color="info"></AddIcon>)}
+                </IconButton>
+              </Tooltip>
             </div>
           </Collapse>
           <Collapse in={editingNotes}>
@@ -234,7 +236,9 @@ const TodoDetailsPage: FunctionComponent = () => {
         {/* Mark as complete */}
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <div style={{ flexGrow: 1 }}></div>
-          <FormControlLabel control={<Checkbox name="completed" disabled={!Boolean(todoItem.title)} checked={todoItem.completed} onChange={markTaskAsDone} color="success" size="medium" />} label="Mark as completed" />
+          <Tooltip title={`Mark "${todoItem.title}" as completed`} placement="top" arrow>
+            <FormControlLabel control={<Checkbox name="completed" disabled={!Boolean(todoItem.title)} checked={todoItem.completed} onChange={markTaskAsDone} color="success" size="medium" />} label="Mark as completed" />
+          </Tooltip>
         </div>
 
         {/* Subtasks Editing */}

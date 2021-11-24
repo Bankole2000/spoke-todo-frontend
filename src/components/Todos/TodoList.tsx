@@ -1,10 +1,9 @@
 import * as React from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
 import { getTodos } from '../../redux/actions/todoActions';
 import { RootState } from '../../redux/reducers';
-import { Grid, Box, LinearProgress, Typography, Collapse, Alert, AlertTitle, Button, Backdrop, CircularProgress, AlertColor } from '@mui/material';
+import { Grid, Box, LinearProgress, Typography, Collapse, Alert, AlertTitle, Button, Backdrop, AlertColor } from '@mui/material';
 import { SettingsBackupRestore as SettingsBackupRestoreIcon } from '@mui/icons-material';
 import TodoItem from './TodoItem';
 import { Todo } from '../../interfaces/TodoInterface';
@@ -28,7 +27,7 @@ const TodoList: React.FunctionComponent = () => {
   }, [])
 
   return (
-    <div style={{ maxWidth: '80vw', margin: '20px auto', position: 'relative' }}>
+    <div style={{ maxWidth: '80vw', margin: '20px auto 40px auto', position: 'relative' }}>
       {
         !loading &&
         <Collapse in={Boolean(errors.length)}>
@@ -81,7 +80,7 @@ const TodoList: React.FunctionComponent = () => {
           open={Boolean(todos.length)}
           invisible
         >
-          <CircularProgress color="primary" />
+          {/* <CircularProgress color="primary" /> */}
         </Backdrop>
       }
     </div>

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Collapse, IconButton, Alert } from "@mui/material";
+import { Collapse, IconButton, Alert, Tooltip } from "@mui/material";
 import { Create as CreateIcon, ArrowBack as ArrowBackIcon, Save as SaveIcon } from '@mui/icons-material';
 import { LoadingButton } from '@mui/lab';
 import { Link } from 'react-location';
@@ -50,9 +50,11 @@ const EditTodoAlerts: React.FunctionComponent<IEditTodoAlertsProps> = ({ todoIte
           </Link>
           <h1 style={{ margin: '5px auto', cursor: 'pointer', textDecoration: `${todoItem.completed ? 'line-through #999999' : 'none'}` }} onClick={() => setEditingTitle(true)}>{todoItem ? todoItem.title : ''}</h1>
           <div style={{ flexGrow: 1, cursor: 'pointer' }} onClick={() => setEditingTitle(true)}></div>
-          <IconButton disabled={Boolean(localError)} size="large" onClick={() => setEditingTitle(true)}>
-            <CreateIcon></CreateIcon>
-          </IconButton>
+          <Tooltip title="Edit to-do title" placement="top" arrow>
+            <IconButton disabled={Boolean(localError)} size="large" onClick={() => setEditingTitle(true)}>
+              <CreateIcon></CreateIcon>
+            </IconButton>
+          </Tooltip>
         </div>
       </Collapse>
     </>

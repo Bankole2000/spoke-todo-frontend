@@ -1,5 +1,5 @@
 import React from 'react';
-import './App.css';
+// import './App.css';
 import {
   Router,
   Route,
@@ -14,6 +14,8 @@ import { Snackbar, Alert, AlertColor } from '@mui/material';
 import { resetMessageType } from './redux/actions/todoActions';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from './redux/reducers';
+import Header from './components/layout/Header';
+import Footer from './components/layout/Footer';
 
 
 
@@ -77,10 +79,14 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Router routes={routes} location={location}>
-        <div>
-          <Outlet />
+        <div style={{ height: '100vh', position: 'relative', maxWidth: '100vw', overflow: 'hidden' }}>
+          <Header></Header>
+          <div style={{ height: 'calc(100vh - 144px)', overflowY: 'auto', overflowX: 'hidden' }}>
+            <Outlet />
+          </div>
+          <Footer></Footer>
         </div>
-        <Snackbar open={!loading && Boolean(messageType)} autoHideDuration={3000} onClose={() => dispatch(resetMessageType())}>
+        <Snackbar open={!loading && Boolean(messageType)} autoHideDuration={3000} onClose={() => dispatch(resetMessageType())} anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
           <Alert onClose={() => { }} severity={messageType} sx={{ width: '100%' }}>
             {message}
           </Alert>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Todo } from '../../interfaces/TodoInterface';
 import { formatTime } from '../../utils/helpers';
-import { Card, CardContent, Typography, CardActions, FormControlLabel, Checkbox, IconButton } from '@mui/material';
+import { Card, CardContent, Typography, CardActions, FormControlLabel, Checkbox, IconButton, Tooltip } from '@mui/material';
 import { Delete as DeleteIcon } from '@mui/icons-material';
 import { updateTodo, deleteTodo } from '../../redux/actions/todoActions';
 import { useDispatch } from "react-redux";
@@ -90,12 +90,20 @@ const TodoItem: React.FunctionComponent<ITodoItemProps> = ({ todo }) => {
           </CardContent>
         </Link>
         <CardActions style={{ display: 'flex', alignItems: 'center', paddingLeft: '20px', paddingRight: '10px' }}>
-          <FormControlLabel control={<Checkbox name="completed" onChange={handleChange} checked={todo.completed} color="success" size="medium" />} label="Completed" />
-          <Typography variant="body2" color={todo.subtasks.length && !todo.completed ? '#2196F3' : '#BBC0C5'} className={classes.todoText}>{todo.subtasks.length ? `(${todo.subtasks.length}) Subtasks` : 'No Subtasks'}</Typography>
+          <Tooltip title="Mark as completed" placement="top" arrow>
+            <FormControlLabel control={<Checkbox name="completed" onChange={handleChange} checked={todo.completed} color="success" size="medium" />} label="Completed" />
+          </Tooltip>
+          <Link to={`/todo/${todo.id}`} style={{ textDecoration: 'none' }}>
+            <Tooltip title={todo.subtasks.length ? `(${todo.subtasks.filter(task => task.completed).length}) completed - (${todo.subtasks.filter(task => !task.completed).length}) incomplete` : "This item has no subtasks"} placement="top" arrow>
+              <Typography variant="body2" color={todo.subtasks.length && !todo.completed ? '#2196F3' : '#BBC0C5'} className={classes.todoText}>{todo.subtasks.length ? `(${todo.subtasks.length}) Subtasks` : 'No Subtasks'}</Typography>
+            </Tooltip>
+          </Link>
           <div style={{ flexGrow: 1 }}></div>
-          <IconButton color="error" onClick={handleDelete}>
-            <DeleteIcon></DeleteIcon>
-          </IconButton>
+          <Tooltip title="Delete this item" placement="top" arrow>
+            <IconButton color="error" onClick={handleDelete}>
+              <DeleteIcon></DeleteIcon>
+            </IconButton>
+          </Tooltip>
         </CardActions>
       </Card>
     </div>

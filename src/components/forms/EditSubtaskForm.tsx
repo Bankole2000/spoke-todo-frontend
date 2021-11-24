@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { TextField, Checkbox, FormControlLabel, IconButton } from "@mui/material";
+import { TextField, Checkbox, FormControlLabel, IconButton, Tooltip } from "@mui/material";
 import { Add as AddIcon, Clear as ClearIcon, } from '@mui/icons-material';
 import { Subtask } from "../../interfaces/TodoInterface";
 
@@ -23,14 +23,22 @@ const EditSubtaskForm: React.FunctionComponent<IEditSubtaskFormProps> = ({ i, it
             addSubtask()
           }
         }} value={task.title} onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => handleSubtaskChange(e, i)} inputProps={{ style: { fontSize: 20, textDecoration: `${task.completed ? 'line-through #313131' : 'none'}` } }} variant="standard" name="title"></TextField>
-        <FormControlLabel control={<Checkbox name="completed" disabled={!Boolean(task.title)} checked={task.completed} onChange={(e) => markSubtaskAsDone(e, i)} color="success" size="medium" />} label="Done" />
-        {itemSubtasks.length > 1 && <IconButton color="error" onClick={() => removeSubtask(i)}>
-          <ClearIcon></ClearIcon>
-        </IconButton>}
+        <Tooltip title="Mark as done" placement="top" arrow>
+          <FormControlLabel control={<Checkbox name="completed" disabled={!Boolean(task.title)} checked={task.completed} onChange={(e) => markSubtaskAsDone(e, i)} color="success" size="medium" />} label="Done" />
+        </Tooltip>
+        {itemSubtasks.length > 1 &&
+          <Tooltip title="Remove subtask" placement="top" arrow>
+            <IconButton color="error" onClick={() => removeSubtask(i)}>
+              <ClearIcon></ClearIcon>
+            </IconButton>
+          </Tooltip>
+        }
         {i === itemSubtasks.length - 1 &&
-          <IconButton disabled={!Boolean(task.title)} onClick={addSubtask} color="info">
-            <AddIcon></AddIcon>
-          </IconButton>
+          <Tooltip title="Add subtask" placement="top" arrow>
+            <IconButton disabled={!Boolean(task.title)} onClick={addSubtask} color="info">
+              <AddIcon></AddIcon>
+            </IconButton>
+          </Tooltip>
         }
       </div>
     </li>
